@@ -1,8 +1,17 @@
 import Game from './components/Game/Game';
+import './App.css';
 
-const App = () => {
+function App() {
     return(
-        <Game />
+        <div>
+            <h1 className="game-heading">
+				Tic-Tac-Toe:
+			</h1>
+			<span className="game-heading-subtext">
+                Let's remember our childhood!
+            </span>
+            <Game />
+        </div>
     );
 }
 

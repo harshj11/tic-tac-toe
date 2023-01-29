@@ -15,19 +15,15 @@ class Board extends React.Component {
 
 	renderSquares(boardDimension) {
 		let squares = [], squareNo = 0;
-		for(let i = 0; i < boardDimension; i++) {
-			let currentRow = [];
-			for(let j = 0; j < boardDimension; j++) {
-				currentRow.push(this.renderSquare(squareNo++));
-			}
-			squares.push(<div className="board-row" key={i + 100}>{currentRow}</div>);
-		}
+		for(let i = 0; i < boardDimension * boardDimension; i++)
+			squares.push(this.renderSquare(squareNo++));
+		
 		return squares;
 	}
 	
 	render() {
 		return (
-			<div>
+			<div className="game-board">
 				{this.renderSquares(3)}
 			</div>
 		);
