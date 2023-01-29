@@ -1,8 +1,21 @@
+*, *::before, *::after {
+	box-sizing: border-box;
+    font-family: Arial;
+}
+
 body {
-  font: 14px "Century Gothic", Futura, sans-serif;
-  margin: 20px;
+	background-color: #333;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 20px;
 }
 
 ol, ul {
-  padding-left: 30px;
+	padding-left: 30px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: #ffffff;
+	margin: 0;
 }

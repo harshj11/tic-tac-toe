@@ -1,5 +1,17 @@
-.board-row:after {
-    clear: both;
-    content: "";
-    display: table;
+.game-board {
+    background-color: #cccccc;
+    border-radius: 1vmin;
+    display: grid;
+    gap: 2vmin;
+    grid-template-columns: repeat(3, 25vmin);
+    grid-template-rows: repeat(3, 25vmin);
+    margin: 2rem 0;
+    padding: 2vmin;
+}
+
+@media (min-width: 600px) {
+    .game-board {
+        grid-template-columns: repeat(3, 20vmin);
+        grid-template-rows: repeat(3, 20vmin);
+    }
 }

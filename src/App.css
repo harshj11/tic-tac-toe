@@ -1,0 +1,23 @@
+.game-heading {
+    font-size: 3rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.game-heading-subtext {
+    color: #ffffff;
+    display: block;
+    font-size: 1.25rem;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .game-heading {
+        font-size: 2rem;
+    }
+
+    .game-heading-subtext {
+        font-size: 1rem;
+    }
+}
