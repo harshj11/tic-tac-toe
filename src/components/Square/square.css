@@ -1,13 +1,7 @@
 .square {
     background: hsl(0, 0%, 67%);
     /* background-color: hsl(200, 50%, 82%); */
-    border: none;
-    border-radius: 1vmin;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     font-size: 7vmin;
-    font-weight: bold;
 }
   
 .square:focus {
@@ -16,4 +10,10 @@
   
 .kbd-navigation .square:focus {
     background: #ddd;
+}
+
+@media (min-width: 600px) {
+    .square {
+        font-size: 5vmin;
+    }
 }

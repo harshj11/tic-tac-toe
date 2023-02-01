@@ -19,3 +19,13 @@ h1, h2, h3, h4, h5, h6 {
 	color: #ffffff;
 	margin: 0;
 }
+
+button {
+	background: #cccccc;
+    border: none;
+	border-radius: 1vmin;
+	display: flex;
+    align-items: center;
+	justify-content: center;
+	font-weight: bold;
+}

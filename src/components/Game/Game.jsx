@@ -1,6 +1,7 @@
 import React from 'react';
 import './game.css';
 import Board from '../Board/Board';
+import Stats from '../Stats/Stats';
 
 function calculateWinner(squares) {
 	const lines = [
@@ -33,24 +34,80 @@ class Game extends React.Component {
 			}],
 			stepNumber: 0,
 			xIsNext: true,
+			player1: "Player1",
+			player2: "Player2",
+			aWon: 0,
+			bWon: 0,
+			draw: 0,
+			status: 'Next Player: X',
+			someoneWonOrDraw: false,
 		};
+	}
+
+	componentDidMount() {
+        let p1 = prompt("Enter Player1's name") || "Player1";
+        let p2 = prompt("Enter Player2's name") || "Player2";
+        
+        this.setState(prevState => ({
+			...prevState,
+			player1: p1,
+			player2: p2,
+		}))
 	}
 
 	handleClick(i) {
 		const history = this.state.history.slice(0, this.state.stepNumber + 1);
 		const current = history[history.length - 1];
 		const squares = current.squares.slice();
-		if(calculateWinner(squares) || squares[i]) {
-			return;
-		}
+
+		if(squares[i] || this.state.someoneWonOrDraw)
+            return;
 		squares[i] = this.state.xIsNext ? 'X' : 'O';
+		
+		const winner = calculateWinner(squares);
+		if(winner) {
+			const newState = Object.assign({}, this.state)
+			if(winner === 'X')
+				newState.aWon = this.state.aWon + 1;
+            else
+				newState.bWon = this.state.bWon + 1;
+			this.setState(prevState => ({
+				...prevState, 
+				...newState,
+				history: history.concat([{
+					squares: squares,
+				}]),
+				xIsNext: !this.state.xIsNext,
+				stepNumber: history.length,
+				status: 'Winner: ' + winner,
+				someoneWonOrDraw: true,
+			}));
+
+            return;
+		}
+		
 		this.setState({
 			history: history.concat([{
 				squares: squares,
 			}]),
 			xIsNext: !this.state.xIsNext,
-			stepNumber: history.length
+			stepNumber: history.length,
+			status: history.length === 9 ? "Match Drawn!" : 'Next Player: ' + (!this.state.xIsNext ? 'X' : 'O'),
+			draw : history.length === 9 ? this.state.draw + 1 : this.state.draw,
+			someoneWonOrDraw: history.length === 9 ? true : false,
 		});
+	}
+
+	handleReset() {
+		this.setState(prevState => ({
+			history: [{
+				squares: Array(9).fill(null)
+			}],
+			stepNumber: 0,
+			xIsNext: true,
+			status: 'Next Player: X',
+			someoneWonOrDraw: false,
+		}))
 	}
 
 	jumpTo(step) {
@@ -63,7 +120,6 @@ class Game extends React.Component {
 	render() {
 		const history = this.state.history;
     	const current = history[this.state.stepNumber];
-		const winner = calculateWinner(current.squares);
 		const moves = history.map((step, move) => {
 			const desc = move ?
 			'Go to move #' + move :
@@ -75,24 +131,34 @@ class Game extends React.Component {
 			);
 		});
 
-    	let status;
-    	if (winner) {
-      		status = 'Winner: ' + winner;
-		} else if(this.state.stepNumber === 9) {
-			status = 'Match Drawn!';
-		} else {
-      		status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-		}
-		
 		return (
 			<div className="game">
 				<Board 
 					squares={current.squares}
 					onClick={(i) => this.handleClick(i)}
 				/>
-				<div className="game-info">
-					<div>{status}</div>
-					<ol>{moves}</ol>
+				<div className="game-stats">
+					<div className="game-info game-info-mobile">
+						<div>{this.state.status}</div>
+					</div>
+					<Stats
+						players={[this.state.player1, this.state.player2]}
+						winsCount={[this.state.aWon, this.state.bWon, this.state.draw]}
+					/>
+					{
+						this.state.someoneWonOrDraw ? 
+							<div className="reset-board">
+								<button
+									className="reset-board-button"
+									onClick={() => this.handleReset()}
+								>
+									Reset Board
+								</button>
+							</div> : null
+					}
+				</div>
+				<div className="game-info game-info-desktop">
+					<div>{this.state.status}</div>
 				</div>
 			</div>
 		);
