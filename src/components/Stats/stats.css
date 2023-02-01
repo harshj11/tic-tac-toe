@@ -1,0 +1,31 @@
+.stats-container {
+    display: flex;
+    margin: 0 auto;
+}
+
+.player-info {
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-weight: bold;
+    font-size: 1.5rem;
+    height: 5rem;
+    padding: 0.5rem;
+}
+
+.player-info:not(:last-child) {
+    border-right: solid 1px #ffffff;
+    padding-right: 1rem;
+}
+
+.player-name {
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+    .stats-container {
+        align-items: center;
+        padding: 1rem;
+    }
+}
