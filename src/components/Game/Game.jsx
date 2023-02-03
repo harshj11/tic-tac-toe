@@ -18,7 +18,7 @@ function calculateWinner(squares) {
 	for (let i = 0; i < lines.length; i++) {
 		const [a, b, c] = lines[i];
 		if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-			return squares[a];
+			return [squares[a], a, b, c];
 		}
 	}
 
@@ -41,6 +41,7 @@ class Game extends React.Component {
 			draw: 0,
 			status: 'Next Player: X',
 			someoneWonOrDraw: false,
+			squaresToBeHighlighted: null,
 		};
 	}
 
@@ -67,7 +68,7 @@ class Game extends React.Component {
 		const winner = calculateWinner(squares);
 		if(winner) {
 			const newState = Object.assign({}, this.state)
-			if(winner === 'X')
+			if(winner[0] === 'X')
 				newState.aWon = this.state.aWon + 1;
             else
 				newState.bWon = this.state.bWon + 1;
@@ -79,8 +80,9 @@ class Game extends React.Component {
 				}]),
 				xIsNext: !this.state.xIsNext,
 				stepNumber: history.length,
-				status: 'Winner: ' + winner,
+				status: 'Winner: ' + winner[0],
 				someoneWonOrDraw: true,
+				squaresToBeHighlighted: [winner[1], winner[2], winner[3]],
 			}));
 
             return;
@@ -99,7 +101,7 @@ class Game extends React.Component {
 	}
 
 	handleReset() {
-		this.setState(prevState => ({
+		this.setState(({
 			history: [{
 				squares: Array(9).fill(null)
 			}],
@@ -107,6 +109,7 @@ class Game extends React.Component {
 			xIsNext: true,
 			status: 'Next Player: X',
 			someoneWonOrDraw: false,
+			squaresToBeHighlighted: null,
 		}))
 	}
 
@@ -120,22 +123,13 @@ class Game extends React.Component {
 	render() {
 		const history = this.state.history;
     	const current = history[this.state.stepNumber];
-		const moves = history.map((step, move) => {
-			const desc = move ?
-			'Go to move #' + move :
-			'Go to game start';
-			return (
-				<li key={move}>
-					<button onClick={() => this.jumpTo(move)}>{desc}</button>
-				</li>
-			);
-		});
 
 		return (
 			<div className="game">
 				<Board 
 					squares={current.squares}
 					onClick={(i) => this.handleClick(i)}
+					highlightSquares={this.state.squaresToBeHighlighted}
 				/>
 				<div className="game-stats">
 					<div className="game-info game-info-mobile">

@@ -1,8 +1,6 @@
 import React from 'react';
 
 import Game from './components/Game/Game';
-import Game1 from './components/Game/Game1';
-import Stats from './components/Stats/Stats';
 
 import './App.css';
 
