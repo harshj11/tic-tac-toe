@@ -1,6 +1,5 @@
 .square {
     background: hsl(0, 0%, 67%);
-    /* background-color: hsl(200, 50%, 82%); */
     font-size: 7vmin;
 }
   
@@ -10,6 +9,19 @@
   
 .kbd-navigation .square:focus {
     background: #ddd;
+}
+
+.square-x {
+    background-color: hsl(200, 58%, 78%);
+}
+
+.square-o {
+    background-color: hsl(200, 76%, 60%);
+    color: #ffffff;
+}
+
+.highlight {
+    box-shadow: 0px 0px 12px 10px hsl(200deg 46% 80%);
 }
 
 @media (min-width: 600px) {
